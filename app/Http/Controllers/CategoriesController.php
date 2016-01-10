@@ -6,18 +6,26 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Category;
 
-class ProductsController extends Controller
+class CategoriesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('role:admin');
+    }
 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $q = $request->get('q');
+        $categories = Category::where('title', 'LIKE', '%'.$q.'%')->orderBy('title')->paginate(10);
+        return view('categories.index', compact('categories', 'q'));
     }
 
     /**
@@ -27,7 +35,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        //
+        return view('categories.create');
     }
 
     /**
@@ -38,7 +46,14 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required|string|max:255|unique:categories',
+            'parent_id' => 'exists:categories,id'
+        ]);
+
+        Category::create($request->all());
+        \Flash::success('Category saved.');
+        return redirect()->route('categories.index');
     }
 
     /**
@@ -49,7 +64,7 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -60,7 +75,7 @@ class ProductsController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
@@ -72,7 +87,7 @@ class ProductsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
     }
 
     /**
@@ -83,6 +98,6 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
-        //
+
     }
 }

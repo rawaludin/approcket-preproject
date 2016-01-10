@@ -11,8 +11,6 @@
 |
 */
 
-
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -30,4 +28,5 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/home', 'HomeController@index');
     Route::resource('products', 'ProductsController');
     Route::get('catalogs', 'CatalogsController@index');
+    Route::resource('categories', 'CategoriesController');
 });

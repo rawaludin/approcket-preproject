@@ -56,7 +56,7 @@
                                 Manage <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="#"><i class="fa fa-btn fa-tags"></i>Categories</a></li>
+                                <li><a href="{{ route('categories.index') }}"><i class="fa fa-btn fa-tags"></i>Categories</a></li>
                                 <li><a href="#"><i class="fa fa-btn fa-gift"></i>Products</a></li>
                             </ul>
                         </li>
@@ -85,7 +85,14 @@
             </div>
         </div>
     </nav>
-
+    @if (Session::has('flash_notification.message'))
+        <div class="container">
+            <div class="alert alert-{{ Session::get('flash_notification.level') }}">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ Session::get('flash_notification.message') }}
+            </div>
+        </div>
+    @endif
     @yield('content')
 
     <!-- JavaScripts -->
