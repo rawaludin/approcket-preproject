@@ -28,4 +28,6 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/', 'HomeController@welcome');
     Route::auth();
     Route::get('/home', 'HomeController@index');
+    Route::resource('products', 'ProductsController');
+    Route::get('catalogs', 'CatalogsController@index');
 });

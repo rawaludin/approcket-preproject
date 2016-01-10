@@ -22,4 +22,25 @@ class Category extends Model
     {
         return $this->belongsToMany('App\Product');
     }
+
+    /**
+     * Get total amount of product from current category and its child
+     * @return int
+     */
+    public function getTotalProductsAttribute()
+    {
+        return Product::whereIn('id', $this->related_products_id)->count();
+    }
+
+    /**
+     * Get all product id from active category and its child
+     */
+    public function getRelatedProductsIdAttribute()
+    {
+        $result = $this->products->lists('id')->toArray();
+        foreach ($this->childs as $child) {
+            $result = array_merge($result, $child->related_products_id);
+        }
+        return $result;
+    }
 }
