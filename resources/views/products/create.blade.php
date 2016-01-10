@@ -4,9 +4,9 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <h3>New Category</h3>
-        {!! Form::open(['route' => 'categories.store'])!!}
-          @include('categories._form')
+        <h3>New Product</h3>
+        {!! Form::open(['route' => 'products.store'])!!}
+          @include('products._form')
         {!! Form::close() !!}
       </div>
     </div>

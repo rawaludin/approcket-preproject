@@ -18,9 +18,16 @@ class Product extends Model
         });
     }
 
-
     public function categories()
     {
         return $this->belongsToMany('App\Category');
+    }
+
+    public function getCategoryListsAttribute()
+    {
+        if ($this->categories()->count() < 1) {
+            return null;
+        }
+        return $this->categories->lists('id')->all();
     }
 }

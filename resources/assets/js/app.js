@@ -14,3 +14,8 @@ $(document.body).on('click', '.js-submit-confirm', function(event) {
       $form.submit();
     });
 });
+
+$('.js-selectize-multiple').selectize({
+    allowEmptyOption: true,
+    sortField: 'text',
+});

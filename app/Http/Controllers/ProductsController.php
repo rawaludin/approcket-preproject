@@ -50,12 +50,18 @@ class ProductsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required|string|max:255|unique:categories',
-            'parent_id' => 'exists:categories,id'
+            'name' => 'required|unique:products',
+            'model' => 'required',
+            'photo' => 'mime:jpeg,png,bmp|max:10240'
         ]);
+        $data = $request->only('name', 'model');
+        // TK
+        $data['photo'] = 'stub-shoe.jpg';
 
-        Product::create($request->all());
-        \Flash::success('Product saved.');
+        $product = Product::create($data);
+        $product->categories()->sync($request->get('category_lists'));
+
+        \Flash::success($product->name . ' saved.');
         return redirect()->route('products.index');
     }
 
@@ -78,8 +84,8 @@ class ProductsController extends Controller
      */
     public function edit($id)
     {
-        $category = Product::findOrFail($id);
-        return view('products.edit', compact('Product'));
+        $product = Product::findOrFail($id);
+        return view('products.edit', compact('product'));
     }
 
     /**
@@ -91,14 +97,26 @@ class ProductsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $category = Product::findOrFail($id);
+        $product = Product::findOrFail($id);
         $this->validate($request, [
-            'title' => 'required|string|max:255|unique:categories,title,' . $category->id,
-            'parent_id' => 'exists:categories,id'
+            'name' => 'required|unique:products,name,'. $product->id,
+            'model' => 'required',
+            'photo' => 'mime:jpeg,png,bmp|max:10240'
         ]);
+        $data = $request->only('name', 'model');
 
-        $category->update($request->all());
-        \Flash::success('Product updated.');
+        // TK, upload new, delete old, or else....
+        $data['photo'] = 'stub-shoe.jpg';
+
+        $product->update($data);
+        if (count($request->get('category_lists')) > 0) {
+            $product->categories()->sync($request->get('category_lists'));
+        } else {
+            // no category set, detach all
+            $product->categories()->detach();
+        }
+
+        \Flash::success($product->name . ' updated.');
         return redirect()->route('products.index');
     }
 

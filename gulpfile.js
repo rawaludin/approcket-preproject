@@ -16,6 +16,7 @@ elixir(function(mix) {
     mix.scripts([
       '../../../node_modules/bootstrap-sass/assets/javascripts/bootstrap.min.js',
       '../../../node_modules/sweetalert/dist/sweetalert.min.js',
+      '../../../node_modules/selectize/dist/js/standalone/selectize.min.js',
       'app.js'
     ]);
     mix.version(['css/app.css', 'js/all.js']);
