@@ -30,4 +30,17 @@ class Product extends Model
         }
         return $this->categories->lists('id')->all();
     }
+
+    /**
+     * Get path to product photo or give placeholder if its not set
+     * @return string
+     */
+    public function getPhotoPathAttribute()
+    {
+        if ($this->photo !== '') {
+            return url('/img/' . $this->photo);
+        } else {
+            return 'http://placehold.it/850x618';
+        }
+    }
 }

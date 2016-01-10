@@ -42,7 +42,7 @@
             <div class="col-md-6">
               <h3>{{ $product->name }}</h3>
               <div class="thumbnail">
-                <img src="{{ url('/img/' . $product->photo) }}" class="img-rounded">
+                <img src="{{ $product->photo_path }}" class="img-rounded">
                   <p>Model: {{ $product->model }}</p>
                   <p>Category:
                     @foreach ($product->categories as $category)
