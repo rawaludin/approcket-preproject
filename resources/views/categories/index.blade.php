@@ -26,7 +26,12 @@
             <tr>
               <td>{{ $category->title }}</td>
               <td>{{ $category->parent ? $category->parent->title : '' }}</td>
-              <td><a href="{{ route('categories.edit', $category->id)}}">Edit</a> | Delete</td>
+              <td>
+                {!! Form::model($category, ['route' => ['categories.destroy', $category], 'method' => 'delete', 'class' => 'form-inline'] ) !!}
+                 <a href="{{ route('categories.edit', $category->id)}}">Edit</a> |
+                  {!! Form::submit('delete', ['class'=>'btn btn-xs btn-danger js-submit-confirm']) !!}
+                {!! Form::close()!!}
+              </td>
             </tr>
             @endforeach
           </tbody>
