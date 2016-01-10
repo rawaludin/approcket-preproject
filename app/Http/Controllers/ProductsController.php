@@ -6,18 +6,29 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Product;
 
 class ProductsController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('role:admin');
+    }
 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $q = $request->get('q');
+        $products = Product::where('name', 'LIKE', '%'.$q.'%')
+            ->orWhere('model', 'LIKE', '%'.$q.'%')
+            ->orderBy('name')->paginate(10);
+        return view('products.index', compact('products', 'q'));
     }
 
     /**
@@ -27,7 +38,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        //
+        return view('products.create');
     }
 
     /**
@@ -38,7 +49,14 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required|string|max:255|unique:categories',
+            'parent_id' => 'exists:categories,id'
+        ]);
+
+        Product::create($request->all());
+        \Flash::success('Product saved.');
+        return redirect()->route('products.index');
     }
 
     /**
@@ -49,7 +67,7 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -60,7 +78,8 @@ class ProductsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = Product::findOrFail($id);
+        return view('products.edit', compact('Product'));
     }
 
     /**
@@ -72,7 +91,15 @@ class ProductsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $category = Product::findOrFail($id);
+        $this->validate($request, [
+            'title' => 'required|string|max:255|unique:categories,title,' . $category->id,
+            'parent_id' => 'exists:categories,id'
+        ]);
+
+        $category->update($request->all());
+        \Flash::success('Product updated.');
+        return redirect()->route('products.index');
     }
 
     /**
@@ -83,6 +110,8 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Product::find($id)->delete();
+        \Flash::success('Product deleted.');
+        return redirect()->route('products.index');
     }
 }

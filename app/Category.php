@@ -10,6 +10,8 @@ class Category extends Model
 
     public static function boot()
     {
+        parent::boot();
+
         static::deleting(function($model) {
             // remove parent from this category's child
             foreach ($model->childs as $child) {
