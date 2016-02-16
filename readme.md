@@ -10,6 +10,23 @@
 
 Enjoy!
 
+## Screenshot
+![Halaman Katalog](https://github.com/rahmatawaludin/approcket-preproject/raw/master/screenshot/1.png)
+
+![Konfirmasi Delete](https://github.com/rahmatawaludin/approcket-preproject/raw/master/screenshot/2.png)
+
+![Homepage](https://github.com/rahmatawaludin/approcket-preproject/raw/master/screenshot/3.png)
+
+![CRUD Kategori](https://github.com/rahmatawaludin/approcket-preproject/raw/master/screenshot/4.png)
+
+![CRUD Produk](https://github.com/rahmatawaludin/approcket-preproject/raw/master/screenshot/5.png)
+
+![Edit Produk](https://github.com/rahmatawaludin/approcket-preproject/raw/master/screenshot/6.png)
+
+![Pagination + Search](https://github.com/rahmatawaludin/approcket-preproject/raw/master/screenshot/7.png)
+
+![Nested Relationship](https://github.com/rahmatawaludin/approcket-preproject/raw/master/screenshot/8.png)
+
 ## Want to learn more? 
 Baca buku saya [Menyelami Framework Laravel](https://leanpub.com/bukularavel)
 
